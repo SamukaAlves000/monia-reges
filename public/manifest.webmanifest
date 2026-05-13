@@ -1,0 +1,19 @@
+{
+  "name": "Mônia Reges - Vereadora",
+  "short_name": "Mônia Reges",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDF2F8",
+  "theme_color": "#F20574",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ],
+  "description": "Landing page oficial da vereadora Mônia Vaz Reges de Campos Belos (GO)",
+  "dir": "ltr",
+  "lang": "pt-BR",
+  "orientation": "portrait"
+}

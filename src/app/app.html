@@ -1,0 +1,470 @@
+<div class="min-h-screen bg-brand-light font-sans text-brand-dark selection:bg-brand-blue selection:text-white">
+  
+  <!-- Navbar -->
+  <nav [class]="isScrolled() ? 'glass py-3 shadow-sm' : 'bg-transparent py-4'" 
+       class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-institutional rounded-lg flex items-center justify-center text-white font-display font-bold text-xl shadow-lg shadow-institutional/20">MR</div>
+        <div class="flex flex-col">
+          <span class="font-display font-bold text-lg leading-none tracking-tight text-navy">Mônia Reges</span>
+          <span class="text-[10px] uppercase tracking-widest font-semibold text-slate-500">Vereadora de Campos Belos</span>
+        </div>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+        <a href="#inicio" class="hover:text-institutional transition-colors">Início</a>
+        <a href="#sobre" class="hover:text-institutional transition-colors">Mandato</a>
+        <a href="#projetos" class="hover:text-institutional transition-colors">Projetos</a>
+        <a href="#transparencia" class="hover:text-institutional transition-colors">Transparência</a>
+        <button (click)="scrollToContact()" class="bg-navy text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-slate-800 transition-all shadow-sm">
+          Fale com a Equipe
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button (click)="toggleMenu()" class="md:hidden p-2 text-brand-dark">
+        <mat-icon>{{ isMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    @if (isMenuOpen()) {
+      <div class="md:hidden absolute top-full left-0 w-full glass shadow-2xl border-t border-brand-dark/5 p-6 animate-in slide-in-from-top duration-300">
+        <div class="flex flex-col gap-4">
+          <a href="#inicio" (click)="toggleMenu()" class="text-lg font-medium p-2 border-b border-brand-dark/5">Início</a>
+          <a href="#sobre" (click)="toggleMenu()" class="text-lg font-medium p-2 border-b border-brand-dark/5">Sobre</a>
+          <a href="#projetos" (click)="toggleMenu()" class="text-lg font-medium p-2 border-b border-brand-dark/5">Projetos</a>
+          <a href="#transparencia" (click)="toggleMenu()" class="text-lg font-medium p-2 border-b border-brand-dark/5">Transparência</a>
+          <button (click)="scrollToContact(); toggleMenu()" class="w-full bg-brand-blue text-white py-4 rounded-2xl font-bold mt-2">
+            Contato Direto
+          </button>
+        </div>
+      </div>
+    }
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="inicio" class="relative pt-24 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+    <!-- Abstract decor -->
+    <div class="absolute top-0 right-0 w-2/3 h-full bg-slate-100/50 -skew-x-12 origin-top-right -z-10"></div>
+    
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-7 reveal">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-institutional/5 text-institutional text-[10px] font-bold uppercase tracking-widest mb-6 border border-institutional/10">
+            Mandato Ativo
+          </div>
+          <h1 class="font-display text-5xl md:text-6xl font-black leading-[1.05] tracking-tight text-navy mb-6">
+            Trabalho com <span class="text-institutional">resultados</span> e proximidade com a comunidade.
+          </h1>
+          <p class="text-base md:text-lg text-slate-600 max-w-lg mb-8 leading-relaxed">
+            Pelo desenvolvimento de Campos Belos, atuando com empatia, dedicação e justiça social para transformar a saúde, educação e agricultura familiar.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#projetos" class="bg-institutional text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-blue-700 shadow-lg shadow-institutional/20 transition-all">
+              Conheça os projetos
+            </a>
+            <button (click)="scrollToContact()" class="bg-white text-navy border border-slate-200 px-8 py-4 rounded-2xl font-bold text-sm hover:border-institutional transition-all shadow-sm">
+              Fale com a equipe
+            </button>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 relative reveal delay-300">
+          <div class="relative h-[480px] rounded-[3rem] overflow-hidden bg-slate-200 shadow-xl border border-white">
+            <img src="https://www.camposbelos.go.leg.br/wp-content/uploads/2024/03/WhatsApp-Image-2025-01-02-at-10.57.01.jpeg" 
+                 alt="Mônia Vaz Reges" 
+                 class="w-full h-full object-cover">
+            <!-- Glass Overlay -->
+            <div class="absolute bottom-4 left-4 right-4 p-5 glass rounded-3xl m-2">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-institutional/10 rounded-xl flex items-center justify-center">
+                  <mat-icon class="text-institutional text-lg">verified_user</mat-icon>
+                </div>
+                <div>
+                  <p class="text-sm font-black text-navy leading-none mb-1">2ª Secretária</p>
+                  <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Mesa Diretora da Câmara</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
+        @for (stat of stats; track stat.label) {
+          <div class="stagger-item">
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+              <p class="font-display text-2xl font-black text-navy mb-1">{{ stat.value }}</p>
+              <p class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">{{ stat.label }}</p>
+            </div>
+          </div>
+        }
+        <!-- Bonus stat for 4 columns grid density -->
+        <div class="stagger-item">
+          <div class="bg-institutional text-white p-6 rounded-3xl shadow-lg shadow-institutional/20">
+            <p class="font-display text-2xl font-black mb-1">100%</p>
+            <p class="text-[9px] uppercase tracking-widest opacity-80 font-bold">Foco no Cidadão</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <section id="sobre" class="py-16 bg-brand-light">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <div class="md:col-span-4 lg:col-span-5 relative">
+          <div class="relative h-[400px] rounded-3xl overflow-hidden shadow-lg border border-white">
+            <img src="https://www.camposbelos.go.leg.br/wp-content/uploads/2024/03/WhatsApp-Image-2025-01-02-at-10.57.01.jpeg" 
+                 alt="Mônia Reges" 
+                 class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <div class="md:col-span-8 lg:col-span-7 bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
+          <h2 class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-2">Quem é Mônia Reges</h2>
+          <h3 class="font-display text-3xl font-bold text-navy mb-6">Pedagogia e Compromisso Social</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-8">
+            Nascida em Campos Belos, graduada em pedagogia, mãe, esposa e empreendedora. Com experiência na saúde pública e agricultura familiar, atua guiada por valores de empatia, dedicação e justiça social.
+          </p>
+          
+          <div class="grid grid-cols-2 gap-8 border-t border-slate-50 pt-8">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center text-institutional">
+                <mat-icon style="font-size: 18px; width: 18px; height: 18px;">school</mat-icon>
+              </div>
+              <div>
+                <h4 class="font-bold text-navy text-sm">Graduada em Pedagogia</h4>
+                <p class="text-slate-500 text-[11px] leading-tight">Foco no desenvolvimento educacional e humano.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <mat-icon style="font-size: 18px; width: 18px; height: 18px;">nature_people</mat-icon>
+              </div>
+              <div>
+                <h4 class="font-bold text-navy text-sm">Agricultura Familiar</h4>
+                <p class="text-slate-500 text-[11px] leading-tight">Apoio direto ao pequeno produtor rural.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 flex gap-6">
+            <div class="text-center">
+              <p class="text-lg font-bold text-navy leading-none mb-1">2024</p>
+              <p class="text-[9px] text-slate-400 uppercase font-bold">Eleita</p>
+            </div>
+            <div class="w-px h-8 bg-slate-100"></div>
+            <div class="text-center">
+              <p class="text-lg font-bold text-institutional leading-none mb-1">2025</p>
+              <p class="text-[9px] text-slate-400 uppercase font-bold">Mandato</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projetos" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <h2 class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-2">Trabalho em Ação</h2>
+          <h3 class="font-display text-3xl font-bold text-navy">Resultados do Mandato</h3>
+        </div>
+        <button class="text-institutional text-[10px] font-bold border border-blue-100 px-4 py-1.5 rounded-full uppercase tracking-wider hover:bg-institutional hover:text-white transition-all">
+          Ver Todos
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        @for (project of projects; track project.title) {
+          <div class="group bg-slate-50 rounded-3xl p-6 border border-transparent card-hover flex flex-col h-full transition-all duration-300">
+            <div class="w-10 h-10 bg-white shadow-sm rounded-xl flex items-center justify-center mb-6 text-institutional group-hover:bg-institutional group-hover:text-white transition-colors">
+              <mat-icon style="font-size: 20px; width: 20px; height: 20px;">{{ project.icon }}</mat-icon>
+            </div>
+            <h4 class="font-display text-base font-bold text-navy mb-2">{{ project.title }}</h4>
+            <p class="text-[11px] text-slate-500 leading-relaxed mb-6 flex-grow">{{ project.desc }}</p>
+            
+            <div class="flex items-center justify-between pt-4 border-t border-slate-200/50">
+              <span class="text-[9px] font-bold uppercase text-slate-400">Status</span>
+              <span class="text-[9px] font-bold text-green-600 bg-green-50 px-2.5 py-1 rounded-md">{{ project.status }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparency Visual Section -->
+  <section id="transparencia" class="py-16 bg-navy relative overflow-hidden">
+    <!-- Grid overlay decor -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <div class="md:col-span-7">
+          <h2 class="text-institutional font-bold uppercase tracking-widest text-[10px] mb-3">Governança Moderna</h2>
+          <h3 class="font-display text-4xl font-bold text-white mb-6">Transparência do Mandato</h3>
+          <p class="text-white/40 text-sm mb-10 leading-relaxed max-w-lg">
+            Compromisso com a responsabilidade fiscal e social. Atuamos com 100% de transparência na prestação de contas dos recursos destinados à saúde e educação.
+          </p>
+
+          <div class="space-y-6">
+            @for (item of transparency; track item.label) {
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="text-xs font-bold text-white/80">{{ item.label }}</span>
+                  <span class="text-xs font-bold text-institutional">{{ item.value }}%</span>
+                </div>
+                <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-1000" 
+                       [class]="'bg-institutional'"
+                       [style.width.%]="item.value"></div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="md:col-span-5 grid grid-cols-2 gap-4">
+          <div class="p-6 bg-white/5 border border-white/10 rounded-3xl text-center backdrop-blur-sm shadow-xl">
+            <h4 class="text-3xl font-display font-black text-institutional mb-1">37</h4>
+            <p class="text-[9px] uppercase tracking-widest text-white/40 font-bold">Ações Diretas</p>
+          </div>
+          <div class="p-6 bg-white/5 border border-white/10 rounded-3xl text-center backdrop-blur-sm shadow-xl mt-4">
+            <h4 class="text-3xl font-display font-black text-white mb-1">98%</h4>
+            <p class="text-[9px] uppercase tracking-widest text-white/40 font-bold">Presença Ética</p>
+          </div>
+          <div class="p-6 bg-white/5 border border-white/10 rounded-3xl text-center backdrop-blur-sm shadow-xl">
+            <h4 class="text-3xl font-display font-black text-white/80 mb-1">14</h4>
+            <p class="text-[9px] uppercase tracking-widest text-white/40 font-bold">Leis Aprovadas</p>
+          </div>
+          <div class="p-6 bg-white/5 border border-white/10 rounded-3xl text-center backdrop-blur-sm shadow-xl mt-4">
+            <h4 class="text-3xl font-display font-black text-institutional mb-1">Zero</h4>
+            <p class="text-[9px] uppercase tracking-widest text-white/40 font-bold">Resíduo Orçament.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <h2 class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-2">Na Comunidade</h2>
+          <h3 class="font-display text-3xl font-bold text-navy">Galeria de Ações</h3>
+        </div>
+        <button class="text-institutional text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all">
+          Ver todas <mat-icon class="scale-75">east</mat-icon>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 h-[450px]">
+        <div class="col-span-2 row-span-2 rounded-2xl overflow-hidden relative group border border-slate-100 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Reunião">
+          <div class="absolute inset-x-0 bottom-0 p-4 glass m-3 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+            <p class="text-[11px] font-bold text-navy">Reunião de moradores no bairro Central</p>
+          </div>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative group border border-slate-100 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Visita">
+        </div>
+        <div class="rounded-2xl overflow-hidden relative group border border-slate-100 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Evento">
+        </div>
+        <div class="col-span-2 rounded-2xl overflow-hidden relative group border border-slate-100 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Gabinete">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-16 bg-brand-light">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-2">Vozes da População</h2>
+        <h3 class="font-display text-3xl font-bold text-navy">Compromisso com o Cidadão</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @for (testimonial of testimonials; track testimonial.name) {
+          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex flex-col hover:border-institutional transition-all">
+            <div class="flex gap-1 text-yellow-400 mb-6">
+              @for (i of [1,2,3,4,5]; track i) { <mat-icon style="font-size: 16px; width: 16px; height: 16px;">star</mat-icon> }
+            </div>
+            <p class="text-sm italic mb-8 leading-relaxed text-slate-600">"{{ testimonial.text }}"</p>
+            <div class="flex items-center gap-4 mt-auto">
+              <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center font-bold text-navy text-sm shadow-sm">
+                {{ testimonial.name.charAt(0) }}
+              </div>
+              <div>
+                <p class="font-bold text-navy text-sm">{{ testimonial.name }}</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{{ testimonial.role }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <h2 class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-2">Últimas Notícias</h2>
+          <h3 class="font-display text-3xl font-bold text-navy">Informativo do Mandato</h3>
+        </div>
+        <a href="#" class="text-institutional text-[10px] font-bold uppercase tracking-wider">Ver Blog Completo</a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @for (item of news; track item.title) {
+          <div class="group bg-slate-50 border border-transparent hover:border-slate-200 rounded-3xl overflow-hidden transition-all duration-300">
+            <div class="aspect-[16/9] overflow-hidden relative">
+              <img [src]="item.image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="News">
+              <div class="absolute top-4 left-4 bg-white/90 backdrop-blur shadow-sm text-navy px-3 py-1 rounded-lg text-[9px] font-bold uppercase">{{ item.date }}</div>
+            </div>
+            <div class="p-6">
+              <h4 class="font-display text-base font-bold text-navy mb-2 group-hover:text-institutional transition-colors line-clamp-1">{{ item.title }}</h4>
+              <p class="text-[11px] text-slate-500 mb-6 line-clamp-2">{{ item.summary }}</p>
+              <div class="flex justify-between items-center">
+                <span class="text-[9px] font-bold text-institutional uppercase tracking-widest">Educação</span>
+                <mat-icon class="text-slate-300">chevron_right</mat-icon>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- PWA Install Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="bg-navy rounded-[3rem] p-8 md:p-12 overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-institutional/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div class="grid md:grid-cols-2 gap-12 items-center relative z-10">
+          <div>
+            <h2 class="text-institutional font-bold uppercase tracking-widest text-[10px] mb-3">Sempre com Você</h2>
+            <h3 class="font-display text-3xl font-bold text-white mb-6">Acompanhe pelo Aplicativo</h3>
+            <p class="text-white/60 text-sm mb-10 leading-relaxed max-w-md">
+              Instale o nosso aplicativo oficial direto no seu celular. Tenha acesso rápido aos projetos de lei, notícias e envie suas solicitações sem precisar de loja de aplicativos.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <button (click)="installPwa()" class="flex items-center gap-3 bg-white text-navy px-6 py-3 rounded-2xl font-bold text-sm hover:bg-slate-100 transition-all">
+                <mat-icon>install_mobile</mat-icon>
+                Instalar App
+              </button>
+            </div>
+          </div>
+          <div class="hidden md:flex justify-end">
+            <div class="relative">
+              <div class="w-48 h-96 bg-slate-800 rounded-[2.5rem] border-4 border-slate-700 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-4 bg-slate-700"></div>
+                <div class="p-4 pt-8">
+                  <div class="w-8 h-8 bg-institutional rounded-lg mb-4"></div>
+                  <div class="h-2 w-24 bg-slate-600 rounded-full mb-2"></div>
+                  <div class="h-2 w-16 bg-slate-600 rounded-full mb-8"></div>
+                  
+                  <div class="space-y-3">
+                    <div class="h-20 w-full bg-slate-700/50 rounded-xl"></div>
+                    <div class="h-20 w-full bg-slate-700/50 rounded-xl"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-institutional/20 rounded-full blur-2xl"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-6 text-center space-y-8 bg-pink-100 p-12 rounded-[2.5rem]">
+      <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-institutional mx-auto">
+        <mat-icon>chat_bubble</mat-icon>
+      </div>
+      <h3 class="font-display text-2xl md:text-4xl font-black text-navy leading-tight max-w-lg mx-auto">Cuidar das pessoas é construir uma cidade mais humana</h3>
+      <button (click)="scrollToContact()" class="bg-institutional text-white px-10 py-4 rounded-xl font-bold text-sm shadow-lg shadow-institutional/20 hover:scale-105 transition-all">
+        Quero Participar
+      </button>
+      <p class="text-[11px] text-slate-500 font-medium">Acompanhe nossas reuniões e envie suas sugestões para Campos Belos.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contato" class="bg-white border-t border-slate-100 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="col-span-1 md:col-span-1">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-institutional rounded-lg flex items-center justify-center text-white font-display font-bold text-xl shadow-lg shadow-institutional/20">MR</div>
+            <span class="font-display font-bold text-xl leading-tight text-navy">Mônia Reges</span>
+          </div>
+          <p class="text-slate-500 text-xs mb-8 leading-relaxed">
+            Mandato focado no desenvolvimento humano e social de Campos Belos.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-8 h-8 rounded-full bg-slate-50 border flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all text-institutional"><mat-icon class="scale-50">facebook</mat-icon></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-slate-50 border flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all text-pink-600"><mat-icon class="scale-50">camera_alt</mat-icon></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-slate-50 border flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all text-blue-400"><mat-icon class="scale-50">twitter</mat-icon></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-6 uppercase tracking-widest text-[10px] text-slate-400">Links Rápidos</h4>
+          <ul class="space-y-3 text-xs font-bold text-slate-600 uppercase tracking-wider">
+            <li><a href="#inicio" class="hover:text-institutional transition-colors">Início</a></li>
+            <li><a href="#sobre" class="hover:text-institutional transition-colors">Quem é Mônia</a></li>
+            <li><a href="#projetos" class="hover:text-institutional transition-colors">Projetos</a></li>
+            <li><a href="#transparencia" class="hover:text-institutional transition-colors">Transparência</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-6 uppercase tracking-widest text-[10px] text-slate-400">Gabinete</h4>
+          <ul class="space-y-4 text-slate-600 text-xs">
+            <li class="flex items-start gap-2">
+              <mat-icon class="text-institutional" style="font-size: 16px; width: 16px; height: 16px;">location_on</mat-icon>
+              <span>Câmara Municipal de Campos Belos<br>Campos Belos - GO</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <mat-icon class="text-institutional" style="font-size: 16px; width: 16px; height: 16px;">phone</mat-icon>
+              <span>(62) 99999-9999</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-6 uppercase tracking-widest text-[10px] text-slate-400">Informativo</h4>
+          <div class="flex flex-col gap-2">
+            <input type="email" placeholder="Seu e-mail" class="bg-slate-50 border border-slate-100 px-4 py-2.5 rounded-xl text-xs w-full focus:outline-none focus:border-institutional">
+            <button class="bg-institutional text-white px-4 py-2.5 rounded-xl font-bold text-xs hover:bg-blue-700 transition-all">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-[10px] text-slate-400 font-medium">© 2025 - 2028 Gabinete Mônia Reges. Campos Belos - GO.</p>
+        <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          <a href="#" class="hover:text-institutional transition-colors">Privacidade</a>
+          <a href="#" class="hover:text-institutional transition-colors">Termos</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

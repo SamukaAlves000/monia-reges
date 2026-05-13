@@ -1,0 +1,8 @@
+{
+  "name": "Mônia Vaz Reges - Vereadora",
+  "description": "Landing page oficial da vereadora Mônia Vaz Reges de Campos Belos (GO), focada em saúde, educação e proximidade com a comunidade.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
