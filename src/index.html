@@ -8,6 +8,17 @@
     <meta name="theme-color" content="#F20574">
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(reg => {
+            console.log('[PWA] Service Worker registrado', reg);
+          }).catch(err => {
+            console.log('[PWA] Erro ao registrar Service Worker', err);
+          });
+        });
+      }
+    </script>
   </head>
   <body>
     <app-root></app-root>

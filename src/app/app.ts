@@ -27,19 +27,44 @@ export class App implements AfterViewInit {
 
   @HostListener('window:beforeinstallprompt', ['$event'])
   onbeforeinstallprompt(e: any) {
+    // Impede o Chrome 67 e versões anteriores de exibir automaticamente o prompt
     e.preventDefault();
+    // Armazena o evento para que possa ser disparado mais tarde.
     this.deferredPrompt = e;
+    console.log('[PWA] Evento beforeinstallprompt capturado');
+  }
+
+  @HostListener('window:appinstalled', ['$event'])
+  onAppInstalled(e: any) {
+    console.log('[PWA] Aplicativo instalado com sucesso');
+    this.deferredPrompt = null;
   }
 
   installPwa() {
-    if (!this.deferredPrompt) {
-      alert('O aplicativo já está instalado ou seu navegador não suporta a instalação direta.');
-      return;
+    if (this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      this.deferredPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('[PWA] Usuário aceitou a instalação');
+        } else {
+          console.log('[PWA] Usuário recusou a instalação');
+        }
+        this.deferredPrompt = null;
+      });
+    } else {
+      // Verifica se já está em modo standalone
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
+                           || (window.navigator as any).standalone 
+                           || document.referrer.includes('android-app://');
+      
+      if (isStandalone) {
+        alert('O aplicativo já está instalado e em execução.');
+      } else {
+        alert('Para instalar o aplicativo:\n\n' +
+              '• No Chrome: Clique nos três pontos (⋮) e em "Instalar App"\n' +
+              '• no iOS/Safari: Clique em Compartilhar (↑) e "Adicionar à Tela de Início"');
+      }
     }
-    this.deferredPrompt.prompt();
-    this.deferredPrompt.userChoice.then(() => {
-      this.deferredPrompt = null;
-    });
   }
 
   @HostListener('window:scroll', [])
