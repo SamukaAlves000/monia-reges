@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-brand-light font-sans text-brand-dark selection:bg-brand-blue selection:text-white">
   
   <!-- Navbar -->
-  <nav [class]="isScrolled() ? 'glass py-3 shadow-sm' : 'bg-transparent py-4'" 
+  <nav [class]="isScrolled() ? 'bg-white py-3 shadow-sm' : 'bg-transparent py-4'" 
        class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -31,7 +31,7 @@
 
     <!-- Mobile Menu -->
     @if (isMenuOpen()) {
-      <div class="md:hidden absolute top-full left-0 w-full glass shadow-2xl border-t border-brand-dark/5 p-6 animate-in slide-in-from-top duration-300">
+      <div class="md:hidden absolute top-full left-0 w-full bg-white shadow-2xl border-t border-brand-dark/5 p-6 animate-in slide-in-from-top duration-300">
         <div class="flex flex-col gap-4">
           <a href="#inicio" (click)="toggleMenu()" class="text-lg font-medium p-2 border-b border-brand-dark/5">Início</a>
           <a href="#sobre" (click)="toggleMenu()" class="text-lg font-medium p-2 border-b border-brand-dark/5">Sobre</a>
@@ -76,7 +76,7 @@
           <div class="relative h-[480px] rounded-[3rem] overflow-hidden bg-slate-200 shadow-xl border border-white">
             <img src="https://www.camposbelos.go.leg.br/wp-content/uploads/2024/03/WhatsApp-Image-2025-01-02-at-10.57.01.jpeg" 
                  alt="Mônia Vaz Reges" 
-                 class="w-full h-full object-contain">
+                 class="w-full h-full object-cover">
             <!-- Glass Overlay -->
             <div class="absolute bottom-4 left-4 right-4 p-5 glass rounded-3xl m-2">
               <div class="flex items-center gap-4">
