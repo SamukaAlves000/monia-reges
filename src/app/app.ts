@@ -6,63 +6,96 @@ import {
   inject,
   PLATFORM_ID,
   signal,
+  OnInit,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { animate, stagger } from 'motion';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, MatSnackBarModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App implements AfterViewInit {
+export class App implements OnInit, AfterViewInit {
   private platformId = inject(PLATFORM_ID);
+  private snackBar = inject(MatSnackBar);
+  
   isScrolled = signal(false);
   isMenuOpen = signal(false);
+  canInstall = signal(false);
   deferredPrompt: any;
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkInstallState();
+      
+      // Captura o evento se ele já tiver disparado ou quando disparar
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        this.deferredPrompt = e;
+        this.canInstall.set(true);
+        console.log('[PWA] Evento beforeinstallprompt capturado via addEventListener');
+      });
+    }
+  }
+
+  private checkInstallState() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
+                         || (window.navigator as any).standalone 
+                         || document.referrer.includes('android-app://');
+    
+    // Se já estiver instalado, não mostramos o botão
+    this.canInstall.set(!isStandalone);
+  }
 
   @HostListener('window:beforeinstallprompt', ['$event'])
   onbeforeinstallprompt(e: any) {
-    // Impede o Chrome 67 e versões anteriores de exibir automaticamente o prompt
+    // Mantendo HostListener por redundância, mas o addEventListener no ngOnInit costuma ser mais confiável em alguns casos
     e.preventDefault();
-    // Armazena o evento para que possa ser disparado mais tarde.
     this.deferredPrompt = e;
-    console.log('[PWA] Evento beforeinstallprompt capturado');
+    this.canInstall.set(true);
+    console.log('[PWA] Evento beforeinstallprompt capturado via HostListener');
   }
 
   @HostListener('window:appinstalled', ['$event'])
   onAppInstalled(e: any) {
     console.log('[PWA] Aplicativo instalado com sucesso');
     this.deferredPrompt = null;
+    this.canInstall.set(false);
+    this.snackBar.open('Aplicativo instalado com sucesso!', 'Fechar', { duration: 3000 });
   }
 
-  installPwa() {
+  async installPwa() {
     if (this.deferredPrompt) {
       this.deferredPrompt.prompt();
-      this.deferredPrompt.userChoice.then((choiceResult: any) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('[PWA] Usuário aceitou a instalação');
-        } else {
-          console.log('[PWA] Usuário recusou a instalação');
-        }
-        this.deferredPrompt = null;
-      });
+      const choiceResult = await this.deferredPrompt.userChoice;
+      
+      if (choiceResult.outcome === 'accepted') {
+        console.log('[PWA] Usuário aceitou a instalação');
+        this.canInstall.set(false);
+      } else {
+        console.log('[PWA] Usuário recusou a instalação');
+      }
+      this.deferredPrompt = null;
     } else {
-      // Verifica se já está em modo standalone
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
                            || (window.navigator as any).standalone 
                            || document.referrer.includes('android-app://');
       
       if (isStandalone) {
-        alert('O aplicativo já está instalado e em execução.');
+        this.snackBar.open('O aplicativo já está instalado e em execução.', 'Entendi');
       } else {
-        alert('Para instalar o aplicativo:\n\n' +
-              '• No Chrome: Clique nos três pontos (⋮) e em "Instalar App"\n' +
-              '• no iOS/Safari: Clique em Compartilhar (↑) e "Adicionar à Tela de Início"');
+        // Se for iOS ou o browser não suportar o prompt automático
+        this.snackBar.open(
+          'Para instalar: No Chrome clique nos três pontos (⋮) > "Instalar App". No iOS/Safari clique em Compartilhar (↑) > "Adicionar à Tela de Início".',
+          'Fechar',
+          { duration: 10000 }
+        );
       }
     }
   }

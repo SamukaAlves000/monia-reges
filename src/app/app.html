@@ -362,12 +362,14 @@
             <p class="text-white/60 text-sm mb-10 leading-relaxed max-w-md">
               Instale o nosso aplicativo oficial direto no seu celular. Tenha acesso rápido aos projetos de lei, notícias e envie suas solicitações sem precisar de loja de aplicativos.
             </p>
-            <div class="flex flex-wrap gap-4">
-              <button (click)="installPwa()" class="flex items-center gap-3 bg-white text-navy px-6 py-3 rounded-2xl font-bold text-sm hover:bg-slate-100 transition-all">
-                <mat-icon>install_mobile</mat-icon>
-                Instalar App
-              </button>
-            </div>
+            @if (canInstall()) {
+              <div class="flex flex-wrap gap-4">
+                <button (click)="installPwa()" class="flex items-center gap-3 bg-white text-navy px-6 py-3 rounded-2xl font-bold text-sm hover:bg-slate-100 transition-all">
+                  <mat-icon>install_mobile</mat-icon>
+                  Instalar App
+                </button>
+              </div>
+            }
           </div>
           <div class="hidden md:flex justify-end">
             <div class="relative">

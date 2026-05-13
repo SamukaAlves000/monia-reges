@@ -12,15 +12,15 @@
       "type": "image/x-icon"
     },
     {
-      "src": "favicon.ico",
+      "src": "https://www.camposbelos.go.leg.br/wp-content/uploads/2024/03/WhatsApp-Image-2025-01-02-at-10.57.01.jpeg",
       "sizes": "192x192",
-      "type": "image/x-icon",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "favicon.ico",
+      "src": "https://www.camposbelos.go.leg.br/wp-content/uploads/2024/03/WhatsApp-Image-2025-01-02-at-10.57.01.jpeg",
       "sizes": "512x512",
-      "type": "image/x-icon"
+      "type": "image/jpeg"
     }
   ],
   "description": "Landing page oficial da vereadora Mônia Vaz Reges de Campos Belos (GO)",
